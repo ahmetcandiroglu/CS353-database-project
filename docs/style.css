@@ -1,0 +1,15 @@
+body{
+	background-color: #EAECEE;
+}
+
+.core{
+	margin-top: 25px;
+}
+
+.list-group-item{
+	background-color: #F2F4F4;
+}
+
+.list-group{
+	width: 200px;
+}
