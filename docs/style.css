@@ -13,3 +13,8 @@ body{
 .list-group{
 	width: 200px;
 }
+
+.proposal-image{
+	width: 800px;
+	display: block;
+}
