@@ -14,7 +14,13 @@ body{
 	width: 200px;
 }
 
-.proposal-image{
+.proposal-image, .design-report-image{
 	width: 800px;
 	display: block;
+}
+
+.go-top{
+	position: fixed;
+	top: 90%;
+	left: 2%;
 }
