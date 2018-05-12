@@ -15,7 +15,7 @@
         </ul>
         <form class="form-inline my-2 my-lg-0">
           <div class="nav-item">
-              <a style="color: white;" class="nav-link" href="#"><?php
+              <a style="color: white;" class="nav-link" href="profile.php"><?php
               $search_dir = $userPic;
               $images = glob("$search_dir");
               sort($images);
@@ -25,7 +25,7 @@
               //display first image
               if (count($images) > 0) { // make sure at least one image exists
                   $img = $images[0]; // first image
-                echo '<img src="'.$img.'" alt="random image" height = "30" width = "30">'."&nbsp;&nbsp;";
+                echo '<img src="'.$img.'" height = "30" width = "30">'."&nbsp;&nbsp;";
               }
               ?>
               <?php echo htmlspecialchars($userFullName); ?>&nbsp;</a>

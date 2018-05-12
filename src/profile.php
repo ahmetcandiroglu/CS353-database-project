@@ -1,7 +1,11 @@
 <?php
-	//Connect database
-	//include("../database/connect.php");
+    require_once 'navigation_info.php';
 
+    $accountType = $row['user_profileType'];
+    if($accountType == 1)
+    {
+        header("refresh:1; url=redirect.php");
+    }
 ?>
 
 <html>
@@ -18,9 +22,9 @@
 <body>
 
 	<!-- Header -->
-	<?php
-		include("../utils/header.php");
-	?>
+	<?php 
+        include_once "navigation.php";
+    ?>
 
 	<!-- Core -->
 	<div class="container">
