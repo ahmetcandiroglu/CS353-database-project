@@ -1,11 +1,5 @@
 <?php
-    require_once 'navigation_info.php';
-
-    $accountType = $row['user_profileType'];
-    if($accountType == 1)
-    {
-        header("refresh:1; url=redirect.php");
-    }
+    require_once 'venue_info.php';
 ?>
 
 <html>
@@ -27,7 +21,7 @@
 	<?php 
         include_once "navigation.php";
     ?>
-
+    <br>
 	<!-- Core -->
 	<div class="container">
 		
@@ -37,16 +31,31 @@
 			<div class="col-4">
 				<!-- Name -->
                 <h2 class="text-center" style="font-size:32px;margin:9px;">
-                	<i class="material-icons" style="color:#4caf50;">restaurant</i>
-                	&nbsp;Pizza Il Forno
+                	<i class="material-icons" style="color:#4caf50;">restaurant</i>&nbsp;
+                	<?php echo htmlspecialchars($vname); ?>
                 </h2>
                 
 				<!-- Profile Picture -->
-                <img class="img-fluid" src="https://upload-isinolsun-com.mncdn.com/company/job/large/2017/11/18/12565420171118081150272.jpg">
+                <?php
+		            $images = glob("$vpic");
+
+		            // Image selection and display:
+		            // Display first image
+		            if (count($images) > 0) { // make sure at least one image exists
+		              $img = $images[0]; // first image
+		              echo '<img class="img-fluid" src="'.$img.'">';
+		            }
+		            else{
+		            	$img = glob("$nophoto")[0]; // first image
+		            	echo '<img class="img-fluid" src="'.$img.'">';
+	          		}
+	          	?>
                 
 				<!-- Description -->
                 <p class="text-justify" style="margin:14px;">
-                	You would not imagine there would be this many good pizza types; but there is.<br>
+                	<?php
+                		echo htmlspecialchars($vdesc);
+                	?> <br>
                 </p>
 
 				<!-- Plan to visit -->
@@ -71,20 +80,17 @@
 	            </div>
 	            
 				<!-- Buttons -->
-	            <div style="margin-top:4px;margin-bottom:4px;">
-	            	<button class="btn btn-success" type="button" style="padding-top:6px;margin-top:2px;margin-right:3px;margin-bottom:2px;margin-left:3px;font-size:16px;">
-	            		<i class="material-icons d-inline" style="width:16px;height:16px;font-size:16px;">check_circle</i>
-	            		&nbsp; Check In<br>
+	            <div style="margin-top:4px;margin-bottom:4px;padding-top:4px;padding-bottom:4px;">
+	            	<button class="btn btn-success" type="button" style="margin-left:3px;font-size:16px;">
+	            		<i class="material-icons d-inline" style="width:16px;height:16px;font-size:16px;">check_circle</i>&nbsp; Check In<br>
 	            	</button>
-	                <button class="btn btn-success" type="button" style="padding-top:6px;margin-top:2px;margin-right:3px;margin-bottom:2px;margin-left:3px;">
-	                	<i class="material-icons d-inline" style="width:16px;height:16px;font-size:16px;">rate_review</i>
-	                	&nbsp; Review
-	            	</button>
-	            	<button class="btn btn-success" type="button" style="padding-top:6px;margin-top:2px;margin-right:3px;margin-bottom:2px;margin-left:3px;">
-	            		<i class="material-icons d-inline" style="width:16px;height:16px;font-size:16px;">feedback</i>
-	            		&nbsp;Feedback<br>
-	            	</button>
-	        	</div>
+                    <button class="btn btn-success" type="button" style="margin-left:3px;font-size:16px;">
+                    	<i class="material-icons d-inline" style="width:16px;height:16px;font-size:16px;">rate_review</i>&nbsp; Review
+                    </button>
+                    <button class="btn btn-success" type="button" style="margin-left:3px;font-size:16px;">
+                    	<i class="material-icons d-inline" style="width:16px;height:16px;font-size:16px;">feedback</i>&nbsp;Feedback<br>
+                    </button>
+                </div>
 	            
 				<!-- Check-In -->
 	            <div class="d-block">
@@ -126,15 +132,17 @@
 	            <ul class="list-group">
 	                <li class="list-group-item" style="padding:10px;padding-right:5px;padding-top:0px;padding-bottom:0px;padding-left:5px;">
 	                    <p class="text-center" style="padding-bottom:2px;padding-left:2px;padding-right:2px;padding-top:2px;margin:3px;">
-	                    	<strong>Pizza Il Forno</strong><br>
-	                    	Bilkent Station (Üniversiteler Mah. 1597. Cad. No:3)<br>
-	                    	06800 Çankaya<br>
-	                    	Türkiye<br>
+	                    	<?php
+	                    		echo "<strong>{$vname}</strong><br>
+	                    		{$vstreet} {$vcity} <br>{$vcountry}";
+	                    	?>
 	                    </p>
 	                </li>
 	                <li class="list-group-item" style="padding:10px;padding-right:5px;padding-top:0px;padding-bottom:0px;padding-left:5px;">
 	                    <p class="text-center" style="padding-bottom:2px;padding-left:2px;padding-right:2px;padding-top:2px;margin:3px;">
-	                    	Open: 10:30-23:00
+	                    	<?php
+	                    		echo "Open: {$vopen}-{$vclose}";
+	                    	?>
 	                	</p>
 	                </li>
 	                <li class="list-group-item" style="padding-top:2px;padding-right:2px;padding-bottom:2px;padding-left:2px;">
@@ -144,7 +152,9 @@
 	                </li>
 	                <li class="list-group-item" style="padding-top:2px;padding-right:2px;padding-bottom:2px;padding-left:2px;">
 	                    <p class="text-center" style="padding-bottom:0px;padding-left:2px;padding-right:2px;padding-top:0px;margin:3px;">
-	                    	Joined in 11 June 2013<br>
+	                    	<?php
+	                    		echo "Joined in {$vjoin} <br>";
+	                    	?>
 	                    </p>
 	                </li>
 	            </ul>

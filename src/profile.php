@@ -174,7 +174,10 @@
               }
               else{
                 $img = glob("$nophoto")[0]; // first image
-                echo '<img class="float-left" src="'.$img.'" height="75">&nbsp;';
+                echo '
+                <a href="profile.php?profileName='.$followerName.'">
+                  <img class="float-left" src="'.$img.'" height="75">
+                </a>&nbsp;';
               }
             }
           ?>
@@ -199,7 +202,10 @@
                 }
                 else{
                   $img = glob("$nophoto")[0]; // first image
-                  echo '<img class="float-left" src="'.$img.'" height="75">&nbsp;';
+                  echo '
+                  <a href="profile.php?profileName='.$followerName.'">
+                    <img class="float-left" src="'.$img.'" height="75">
+                  </a>&nbsp;';
                 }
               }
             ?>
