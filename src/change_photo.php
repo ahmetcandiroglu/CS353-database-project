@@ -2,10 +2,9 @@
 <html>
 <body>
 
-<form action="upload_photo.php" method="post" enctype="multipart/form-data">
-    Select image to upload:
-    <input type="file" name="fileToUpload" id="fileToUpload">
-    <input type="submit" value="Upload Image" name="submit">
+<form action="changeUserPP.php" method="post" enctype="multipart/form-data">
+	<input type="file" name="fileToUpload" id="fileToUpload">
+	<input type="submit" value="Upload Image" name="submit" class="btn btn-primary">
 </form>
 
 </body>

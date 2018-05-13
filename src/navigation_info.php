@@ -21,4 +21,5 @@ $usernameOfUser = $row['username'];
 $userEmail = $row['user_email'];
 $userCity = $row['city'];
 $userPic = $row['user_pic'];
+$nophoto = "images/common/no photo.png";
 ?>

@@ -19,14 +19,14 @@
         <?php
           echo "<a style=\"color: white;\" class=\"nav-link\" href=\"profile.php?profileName=$username\">";
 
-          $search_dir = $userPic;
-          $images = glob("$search_dir");
-          sort($images);
+          $images = glob("$userPic");
 
-          // Image selection and display:
-          // Display first image
           if (count($images) > 0) { // make sure at least one image exists
-              $img = $images[0]; // first image
+            $img = $images[0]; // first image
+            echo '<img src="'.$img.'" height = "30" width = "30">'."&nbsp;&nbsp;";
+          } 
+          else{
+            $img = glob("$nophoto")[0]; // first image
             echo '<img src="'.$img.'" height = "30" width = "30">'."&nbsp;&nbsp;";
           }
         ?>

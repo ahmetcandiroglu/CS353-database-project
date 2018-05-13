@@ -41,14 +41,16 @@
           <br>
           <!-- Profile Picture -->
           <?php
-            $search_dir = $ppic;
-            $images = glob("$search_dir");
-            sort($images);
+            $images = glob("$ppic");
 
             // Image selection and display:
             // Display first image
             if (count($images) > 0) { // make sure at least one image exists
               $img = $images[0]; // first image
+              echo '<img class="img-fluid" src="'.$img.'">';
+            }
+            else{
+              $img = glob("$nophoto")[0]; // first image
               echo '<img class="img-fluid" src="'.$img.'">';
             }
           ?>
@@ -160,16 +162,19 @@
               $followerName = $row['fname'];
               $search_dir = $row['fpic'];
               $images = glob("$search_dir");
-              sort($images);
-
+              
               // Image selection and display:
               // Display first image
               if (count($images) > 0) { // make sure at least one image exists
                 $img = $images[0]; // first image
                 echo '
                 <a href="profile.php?profileName='.$followerName.'">
-                  <img class="folat-left" src="'.$img.'" height="75">
+                  <img class="float-left" src="'.$img.'" height="75">
                 </a>&nbsp;';
+              }
+              else{
+                $img = glob("$nophoto")[0]; // first image
+                echo '<img class="float-left" src="'.$img.'" height="75">&nbsp;';
               }
             }
           ?>
@@ -182,7 +187,6 @@
                 $followingName = $row['fname']; 
                 $search_dir = $row['fpic'];
                 $images = glob("$search_dir");
-                sort($images);
 
                 // Image selection and display:
                 // Display first image
@@ -192,6 +196,10 @@
                   <a href="profile.php?profileName='.$followingName.'">
                     <img class="float-left" src="'.$img.'" height="75">
                   </a>&nbsp;';
+                }
+                else{
+                  $img = glob("$nophoto")[0]; // first image
+                  echo '<img class="float-left" src="'.$img.'" height="75">&nbsp;';
                 }
               }
             ?>
