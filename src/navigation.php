@@ -16,20 +16,20 @@
     
     <form class="form-inline my-2 my-lg-0">
       <div class="nav-item">
-        <a style="color: white;" class="nav-link" href="profile.php">
-          <?php
-            $search_dir = $userPic;
-            $images = glob("$search_dir");
-            sort($images);
+        <?php
+          echo "<a style=\"color: white;\" class=\"nav-link\" href=\"profile.php?profileName=$username\">";
 
-            // Image selection and display:
+          $search_dir = $userPic;
+          $images = glob("$search_dir");
+          sort($images);
 
-            //display first image
-            if (count($images) > 0) { // make sure at least one image exists
-                $img = $images[0]; // first image
-              echo '<img src="'.$img.'" height = "30" width = "30">'."&nbsp;&nbsp;";
-            }
-          ?>
+          // Image selection and display:
+          // Display first image
+          if (count($images) > 0) { // make sure at least one image exists
+              $img = $images[0]; // first image
+            echo '<img src="'.$img.'" height = "30" width = "30">'."&nbsp;&nbsp;";
+          }
+        ?>
           
           <?php echo htmlspecialchars($userFullName); ?>&nbsp;
         </a>
