@@ -9,6 +9,24 @@
 
   $username = $_SESSION['username'];
   $venueID = $_GET['venueID'];
+
+  $showAlert = 1;
+  $alertFor = "None";
+  if(isset($_SESSION['checkin']) && !empty($_SESSION['checkin'])){
+    $showAlert = $_SESSION['checkin'];
+    unset($_SESSION['checkin']);
+    $alertFor = 'Check-In';
+  }
+  if(isset($_SESSION['review']) && !empty($_SESSION['review'])){
+    $showAlert = $_SESSION['review'];
+    unset($_SESSION['review']);
+    $alertFor = 'Review';
+  }
+  if(isset($_SESSION['suggestion']) && !empty($_SESSION['suggestion'])){
+    $showAlert = $_SESSION['suggestion'];
+    unset($_SESSION['suggestion']);
+    $alertFor = 'Suggestion';
+  }
   
   //Venue info
   $sql = "SELECT venueName, venueDesc, venueTel, street_number, street_name, cityID, venuePic, venueOpenTime, venueCloseTime, venueCreated 
@@ -22,9 +40,9 @@
   $vstreet = $row['street_name']." No:".$row['street_number'];
   $vcity = $row['cityID'];
   $vpic = $row['venuePic'];
-  $vopen = $row['venueOpenTime'];
-  $vclose = $row['venueCloseTime'];
-  $vjoin = $row['venueCreated'];
+  $vopen = date('H:i', strtotime($row['venueOpenTime']));
+  $vclose = date('H:i', strtotime($row['venueCloseTime']));
+  $vjoin = date('d F Y', strtotime($row['venueCreated']));
   $vtel = $row['venueTel'];
 
   //Get city and county

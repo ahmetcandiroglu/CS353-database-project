@@ -33,8 +33,8 @@
   
   $pname = $row['user_firstName']." ".$row['user_lastName'];
   $ppic = $row['user_pic'];
-  $pbdate = $row['user_birthdate'];
-  $pjoin = $row['user_created'];
+  $pbdate = date('d F', strtotime($row['user_birthdate']));
+  $pjoin = date('d F  Y', strtotime($row['user_created']));
 
   //Get follower count
   $sql = "SELECT COUNT(*) as fcount 

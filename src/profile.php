@@ -1,5 +1,6 @@
 <?php
   require_once 'profile_info.php';
+  require_once 'checkIn.php';
 ?>
 
 <html>
@@ -31,7 +32,7 @@
     <div class="row">
       
       <!-- Left -->
-      <div class="col-4">
+      <div class="col-md-4">
           <!-- Name -->
           <h2 class="text-center" style="font-size:32px;margin:9px;">
               <?php
@@ -87,7 +88,7 @@
       </div>
 
       <!-- Middle -->
-      <div class="col-6 col-md-4 mx-auto">
+      <div class="col-md-5">
 
           <!-- Buttons -->
           <div style="margin-top:4px;margin-bottom:4px;">
@@ -134,26 +135,18 @@
                       <p class="text-left card-text" style="font-size:14px;">
                           Pizzalar anlatıldığı gibi muhteşem. Tavuk Sezar pizza ve Füme Kaburga efsane. Keşke Nutellalı Pizzaya da yer kalsaydı. Bilkent Station içinde güzel bir yer olmuş.<br>
                       </p>
-                      <img class="img-fluid" src="https://lh3.googleusercontent.com/p/AF1QipPribqPaGOErVapQ_ynL938jf-h8rvHLw9UkAon=w600-k" width="100px">
+                      <img class="img-fluid float-left" src="https://lh3.googleusercontent.com/p/AF1QipPribqPaGOErVapQ_ynL938jf-h8rvHLw9UkAon=w600-k" width="100px">
                   </div>
               </div>
-              <div class="card" style="margin-top:5px;margin-bottom:5px;">
-                  <div class="card-body" style="margin-top:5px;margin-bottom:5px;">
-                      <h6 class="text-muted card-subtitle mb-2">
-                          Checked In Kebab4Life
-                          <i class="material-icons float-right" style="font-size:16px;">thumb_down</i>
-                          <span class="badge badge-pill badge-light float-right">+5</span>
-                          <i class="material-icons float-right" style="font-size:16px;">thumb_up</i>
-                      </h6>
-                      <h6 class="text-muted card-subtitle mb-2">10 February 2015</h6>
-                  </div>
-              </div>
+              <?php
+                printCheckIns($profileName, $db);
+              ?>
           </div>
       </div>
       
       <!-- Right -->
-      <div class="col-3">
-
+      <div class="col-md-3">
+        
         <!-- Followers -->
         <a class="text-primary" href="#"><?php echo "{$pfollowerc} Followers"?></a>
         <div class="card-group">
@@ -240,6 +233,8 @@
   </div>
 
   <script type="text/javascript">
+    
+
     function followed() {      
       follow(true);
     }
@@ -263,6 +258,39 @@
         }
       });
     }
+
+    function like(self) {
+      var cid = self.id;
+      $.ajax({
+        type: "POST",
+        url: "checkIn.php",
+        data: { cid: cid, status: 'like'},
+        success: function (data){
+          console.log(data);
+          window.location.reload();
+        },
+        error: function (){
+          console.log("Something went wrong!");
+        }
+      });
+    }
+
+    function dislike(self) {
+      var cid = self.id;
+      $.ajax({
+        type: "POST",
+        url: "checkIn.php",
+        data: { cid: cid, status: 'unlike'},
+        success: function (data){
+          console.log(data);
+          window.location.reload();
+        },
+        error: function (){
+          console.log("Something went wrong!");
+        }
+      });
+    }
+
   </script>
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>

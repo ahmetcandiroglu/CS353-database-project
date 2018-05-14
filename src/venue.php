@@ -77,7 +77,7 @@
                 				&nbsp; Cancel planned visit<br>
                 			</button>
                 			<br>
-                			<button class="btn btn-success" type="button" style="padding-top:6px;margin-top:2px;margin-right:3px;margin-bottom:2px;margin-left:3px;font-size:16px;" onclick="visited()">
+                			<button class="btn btn-success" type="button" style="padding-top:6px;margin-top:2px;margin-right:3px;margin-bottom:2px;margin-left:3px;font-size:16px;" onclick="showArea()">
                 				Have you visit '.$vname.'? Check-In!<br>
                 			</button>
                 			';
@@ -96,39 +96,123 @@
             </div>
 
             <!-- Middle -->
-            <div class="col-md-4">            		
+            <div class="col-md-4"> 
+            	<?php
+            		if($showAlert == 2){
+            			echo '
+            				<div class="alert alert-success" role="alert">
+  								'.$alertFor.' is succesful!
+							</div>
+            			';
+            		}
+            		else if($showAlert == 3){
+            			echo '<div class="alert alert-danger" role="alert">
+						  Something went wrong, '.$alertFor.' is not done :(
+						</div>';
+            		}
+            	?>
+
 				<!-- Buttons -->
 	            <div style="margin-top:4px;margin-bottom:4px;padding-top:4px;padding-bottom:4px;">
-	            	<button class="btn btn-success" type="button" style="margin-left:1px;font-size:16px;" onclick="showCheckIn()">
+	            	<button class="btn btn-success" type="button" style="margin-left:1px;font-size:16px;" 
+	            	onclick="showArea('checkInBox')" id="checkinBtn">
 	            		<i class="material-icons d-inline" style="width:16px;height:16px;font-size:16px;">check_circle</i>&nbsp; Check In
 	            	</button>
-                    <button class="btn btn-success" type="button" style="margin-left:1px;font-size:16px;" onclick="showReview()">
+                    <button class="btn btn-success" type="button" style="margin-left:1px;font-size:16px;" 
+                    onclick="showArea('reviewBox')" id="reviewBtn">
                     	<i class="material-icons d-inline" style="width:16px;height:16px;font-size:16px;">rate_review</i>&nbsp; Review
                     </button>
-                    <button class="btn btn-success" type="button" style="margin-left:1px;font-size:16px;" onclick="showSuggest()">
+                    <button class="btn btn-success" type="button" style="margin-left:1px;font-size:16px;" 
+                    onclick="showArea('suggestionBox')" id="suggestionBtn">
                     	<i class="material-icons d-inline" style="width:16px;height:16px;font-size:16px;">feedback</i>&nbsp;Suggestion
                     </button>
                 </div>
 	            
 	            <!-- Check-In, Review and Suggestion forms -->
 	            <div>
-	            	<div class="card" id="checkInBox">
-					  <h5 class="card-header"><?php echo "Check In to $vname"; ?></h5>
-					  <div class="card-body">
-					    <form action="<?php echo "add_checkin.php?venueID=$venueID&username=$username";?>" 
-					    method="post" enctype="multipart/form-data">    
-						    <p>Add photos!</p>
-						    <input type="file" name="files[]" multiple/>
-						    <br> <br>
-						    <input type="submit" value="Check-In!" id="selectedButton" class="btn btn-success"/>
-						</form>
+	            	<div class="card" id="checkInBox" style="display:none">
+						<h5 class="card-header"><?php echo "Check In to $vname"; ?>
+					  		<button type="button" class="close" aria-label="Close" onclick="hideArea('checkInBox')">
+						  	<span aria-hidden="true">&times;</span>
+							</button>
+					  	</h5>
+					  
+					  	<div class="card-body">
+					    	<form action="<?php echo "add_checkin.php?venueID=$venueID&username=$username";?>" method="post" enctype="multipart/form-data">    
+						    	<p>Add photos!</p>
+						    	<input type="file" name="files[]" multiple/>
+						    	<br> <br>
+						    	<input type="submit" value="Check-In!" id="selectedButton" class="btn btn-success"/>
+							</form>
 					    
-					    <hr>
-					    <p class="font-italic">Tip: You can always make a review of a check-in!</p>
+					    	<hr>
+					    	<p class="font-italic">Tip: You can always make a review of a check-in!</p>
+					  	</div>
 					</div>
-				</div>
 
-	            </div>
+					<div class="card" id="reviewBox" style="display:none">
+						<h5 class="card-header"><?php echo "Review $vname"; ?>
+					  		<button type="button" class="close" aria-label="Close" onclick="hideArea('reviewBox')">
+						  	<span aria-hidden="true">&times;</span>
+							</button>
+					  	</h5>
+					  
+					  	<div class="card-body">
+					    	<form action="<?php echo "add_review.php?venueID=$venueID&username=$username";?>" method="post" enctype="multipart/form-data">
+					    		<p1>Rate&nbsp;</p1>
+					    		<div class="form-check form-check-inline">
+								  <input class="form-check-input" type="radio" name="rating" id="rating1" value="1">
+								  <label class="form-check-label" for="rating1">1</label>
+								</div>
+								<div class="form-check form-check-inline">
+								  <input class="form-check-input" type="radio" name="rating" id="rating2" value="2">
+								  <label class="form-check-label" for="rating2">2</label>
+								</div>
+								<div class="form-check form-check-inline">
+								  <input class="form-check-input" type="radio" name="rating" id="rating3" value="3">
+								  <label class="form-check-label" for="rating3">3</label>
+								</div>
+								<div class="form-check form-check-inline">
+								  <input class="form-check-input" type="radio" name="rating" id="rating4" value="4">
+								  <label class="form-check-label" for="rating4">4</label>
+								</div>
+								<div class="form-check form-check-inline">
+								  <input class="form-check-input" type="radio" name="rating" id="rating5" value="5">
+								  <label class="form-check-label" for="rating5">5</label>
+								</div>
+								<hr>
+					    		<div class="form-group">
+									<label for="reviewText">Write a review...</label>
+								    <textarea class="form-control" id="reviewText" name="reviewText" rows="3"></textarea>
+								</div>
+								<hr>
+						    	<p>Add photos!</p>
+						    	<input type="file" name="files[]" multiple/>
+						    	<br> <br>
+						    	<input type="submit" value="Review!" id="selectedButton" class="btn btn-success"/>
+							</form>
+					  	</div>
+					</div>
+
+					<div class="card" id="suggestionBox" style="display:none">
+						<h5 class="card-header"><?php echo "Give Suggestion to $vname"; ?>
+					  		<button type="button" class="close" aria-label="Close" onclick="hideArea('suggestionBox')">
+						  	<span aria-hidden="true">&times;</span>
+							</button>
+					  	</h5>
+					  
+					  	<div class="card-body">
+					    	<form action="<?php echo "add_suggestion.php?venueID=$venueID&username=$username";?>" method="post" enctype="multipart/form-data">    
+						    	<div class="form-group">
+									<label for="suggestionText">Write your suggestion...</label>
+								    <textarea class="form-control" id="suggestionText" name="suggestionText" rows="3"></textarea>
+								</div>
+								<input type="submit" value="Suggest!" id="selectedButton" class="btn btn-success"/>
+							</form>
+					  	</div>
+					</div>
+
+				</div>
 
 				<!-- Check-In -->
 	            <div>
@@ -260,9 +344,30 @@
 	      });
 	    }
 
-	    function showCheckIn() {
+	    function showArea(id) {
+	    	if(!id)
+	    		id = "checkInBox";
+	    	
+	    	document.getElementById(id).style.display = "block";
+	    	document.getElementById('checkinBtn').disabled = true;
+	    	document.getElementById('reviewBtn').disabled = true;
+	    	document.getElementById('suggestionBtn').disabled = true;
+	    	if(id === 'checkInBox'){
+	    		document.getElementById('checkinBtn').disabled = false;
+	    	}
+	    	else if(id === 'reviewBox'){
+				document.getElementById('reviewBtn').disabled = false;
+	    	}
+	    	else if(id === 'suggestionBox'){
+	    		document.getElementById('suggestionBtn').disabled = false;
+	    	}
+	    }
 
-
+	    function hideArea(id) {
+	    	document.getElementById(id).style.display = "none";
+	    	document.getElementById('checkinBtn').disabled = false;
+	    	document.getElementById('reviewBtn').disabled = false;
+	    	document.getElementById('suggestionBtn').disabled = false;
 	    }
   	</script>
 

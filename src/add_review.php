@@ -7,16 +7,23 @@
     }
     $username = $_GET['username'];
     $venueID = $_GET['venueID'];
+    $rating = (int)$_POST['rating'];
+    $reviewText = mysql_real_escape_string($_POST['reviewText']);
 
-    //Make check-in and get ID
+    //Insert check-in and get ID
     $sql = "INSERT INTO checkin (username, venueID)
-                VALUES ('$username', $venueID)";
+            VALUES ('$username', $venueID)";
     $query = mysqli_query($db, $sql);
     $checkinID = mysqli_insert_id($db);
 
     //Delete visit plans
     $sql = "DELETE FROM plan_to_visit
             WHERE username = '$username' and venueID = $venueID";
+    $query = mysqli_query($db, $sql);
+
+    //Insert review
+    $sql = "INSERT INTO review (checkinID, review_rating, review_desc)
+            VALUES ($checkinID, $rating, '$reviewText')";
     $query = mysqli_query($db, $sql);
 
     $target_dir = "images/user/{$username}/checkin/{$checkinID}/";
@@ -58,6 +65,6 @@
         }
     }
 
-    $_SESSION['checkin'] = 2;
+    $_SESSION['review'] = 2;
     header("location: venue.php?venueID={$venueID}");
 ?>
