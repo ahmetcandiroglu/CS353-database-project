@@ -1,4 +1,6 @@
-<?php include_once "navigation_info.php"; ?>
+<?php
+  include_once "navigation_info.php";
+?>
 <!doctype html>
 <html lang="en">
   <head>
@@ -18,17 +20,17 @@
   		<?php include_once "navigation.php"; ?>
 
         <br> <br>
-        
+
         <div class="row">
             <div class="col-lg-6 offset-lg-3">
- 
+
             <form action=" <?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?> " method="post">
 
                         <div class="panel panel-default panel-main">
                             <div class="panel-heading text-center">
                                 <b><h2>Add Venue</h2></b>
                             </div>
-                            
+
                             <div class="panel-body">
                                 <p class="text-center">Complete Venue's Information</p>
 
@@ -39,7 +41,7 @@
                                             <input type="text" name="firstName"class="form-control" value="<?php //echo $firstName; ?>">
                                             <span class="help-block"><?php //echo $firstName_err; ?></span>
                                         </div>
-                                    </div>      
+                                    </div>
                                     <div class="col-lg-3">
                                         <div class="form-group <?php //echo (!empty($lastName_err)) ? 'has-error' : ''; ?>">
                                             <b><label>Country </label></b>
@@ -55,7 +57,7 @@
                                             </div>
                                             <span class="help-block"><?php //echo $lastName_err; ?></span>
                                         </div>
-                                    </div>  
+                                    </div>
                                     <div class="col-lg-3">
                                         <div class="form-group <?php //echo (!empty($lastName_err)) ? 'has-error' : ''; ?>">
                                             <b><label>City </label></b>
@@ -71,7 +73,7 @@
                                             </div>
                                             <span class="help-block"><?php //echo $lastName_err; ?></span>
                                         </div>
-                                    </div>  
+                                    </div>
                                 </div>
                                 <div class="row">
                                     <div class="col-lg-6">
@@ -80,16 +82,16 @@
                                             <input type="text" name="streeName"class="form-control" value="<?php //echo $username; ?>">
                                             <span class="help-block"><?php //echo $username_err; ?></span>
                                         </div>
-                                    </div>                                                      
+                                    </div>
                                     <div class="col-lg-6">
                                         <div class="form-group <?php //echo (!empty($userEmail_err)) ? 'has-error' : ''; ?>">
                                             <b><label>Street Number</label></b>
                                             <input type="number" name="streeNr"class="form-control" value="<?php //echo $userEmail; ?>">
                                             <span class="help-block"><?php //echo $userEmail_err; ?></span>
                                         </div>
-                                    </div>  
+                                    </div>
                                 </div>
-                                <div class="row">           
+                                <div class="row">
                                     <div class="col-lg-6">
                                         <div class="form-group">
                                             <b><label>Status</label></b>
@@ -100,7 +102,7 @@
                                               <label for="not-available">&nbsp; Not Available</label>
                                             </div>
                                         </div>
-                                    </div> 
+                                    </div>
                                     <div class="col-lg-3">
                                         <div class="form-group <?php //echo (!empty($lastName_err)) ? 'has-error' : ''; ?>">
                                             <b><label>Open Time </label></b>
@@ -116,7 +118,7 @@
                                             </div>
                                             <span class="help-block"><?php //echo $lastName_err; ?></span>
                                         </div>
-                                    </div>  
+                                    </div>
                                      <div class="col-lg-3">
                                         <div class="form-group <?php //echo (!empty($lastName_err)) ? 'has-error' : ''; ?>">
                                             <b><label>Close Time </label></b>
@@ -132,7 +134,7 @@
                                             </div>
                                             <span class="help-block"><?php //echo $lastName_err; ?></span>
                                         </div>
-                                    </div>                                     
+                                    </div>
                                 </div>
                                 <div class="row">
                                     <div class="col-lg-6">
@@ -154,9 +156,9 @@
                                                     <button class="btn btn-info" onClick="showTable();">Save</button>
                                                 </ul>
                                             </div>
-                       
+
                                         </div>
-                                    </div>                                                      
+                                    </div>
                                     <div class="col-lg-6">
                                          <div class="form-group <?php //echo (!empty($lastName_err)) ? 'has-error' : ''; ?>">
                                              <b><label>Features</label></b>
@@ -176,9 +178,9 @@
                                                     <button class="btn btn-info" onClick="showTable();">Save</button>
                                                 </ul>
                                             </div>
-                       
+
                                         </div>
-                                    </div>           
+                                    </div>
                                 </div>
 
                                 <div class="form-group">
@@ -186,7 +188,7 @@
                                     <textarea style="resize: none;" maxlength="250" class="form-control" id="venueDesc" rows="5"></textarea>
                                 </div>
 
-                                <div class="row">       
+                                <div class="row">
                                     <div class="col-lg-4"></div>
                                     <div class="col-lg-4">
                                         <div class="form-group text-center">
@@ -203,13 +205,3 @@
         </body>
     </head>
 </html>
-
-
-
-
-
-
-
-
-
-
