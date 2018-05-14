@@ -27,6 +27,17 @@
 		}
 	}
 
+	function printCheckInsVenue($venueID, $db){
+		$sql = "SELECT checkinID 
+		      	FROM checkin
+		      	WHERE venueID = $venueID";
+		$query = mysqli_query($db, $sql);
+		while($row = mysqli_fetch_array($query, MYSQLI_ASSOC)){
+			$checkinID = $row['checkinID'];
+			echo getCheckInHTML($checkinID, $db);
+		}
+	}
+
 	function getCheckInHTML($checkinID, $db){
 		//Get check-in info
 		$sql = "SELECT U.user_firstName as ufname, U.username as uname, V.venueName as vname, V.venueID as vid, C.checkin_date as cdate 
@@ -65,7 +76,7 @@
 			<div class="card" style="margin-top:5px;margin-bottom:5px;">
                 <div class="card-body" style="margin-top:5px;margin-bottom:5px;">
                 	<h6 class="text-weight-bold card-subtitle mb-2">
-                     	Checked In <a href="venue.php?venueID='.$vid.'">'.$vname.'</a>
+                     	'.$ufname.' has Checked In <a href="venue.php?venueID='.$vid.'">'.$vname.'</a>
                         <i class="material-icons float-right" style="font-size:16px;" onclick="dislike(this)"
                         id="'.$checkinID.'">thumb_down</i>
                         <span class="badge badge-pill badge-light float-right">+'.$likeCount.'</span>
