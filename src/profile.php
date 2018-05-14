@@ -203,7 +203,7 @@
                 else{
                   $img = glob("$nophoto")[0]; // first image
                   echo '
-                  <a href="profile.php?profileName='.$followerName.'">
+                  <a href="profile.php?profileName='.$followingName.'">
                     <img class="float-left" src="'.$img.'" height="75">
                   </a>&nbsp;';
                 }

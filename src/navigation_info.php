@@ -9,7 +9,9 @@ if(!isset($_SESSION['username']) || empty($_SESSION['username'])){
   exit;
 }
 
-$sql = "SELECT user_profileType, user_firstName, user_lastName, username,user_email, cityID, user_pic FROM user_table WHERE username = '$username'";
+$sql = "SELECT user_profileType, user_firstName, user_lastName, username, user_email, user_cityID, user_pic
+		FROM user_table 
+		WHERE username = '$username'";
 $query = mysqli_query($db, $sql);
 $row = mysqli_fetch_array($query);
 
@@ -19,7 +21,7 @@ $userLastName = $row['user_lastName'];
 $userFullName = $userFirstName." ".$userLastName;
 $usernameOfUser = $row['username'];
 $userEmail = $row['user_email'];
-$userCity = $row['cityID'];
+$userCity = $row['user_cityID'];
 $userPic = $row['user_pic'];
 $nophoto = "images/common/no photo.png";
 ?>

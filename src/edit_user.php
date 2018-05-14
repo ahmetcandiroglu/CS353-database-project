@@ -126,10 +126,10 @@
 			                          //display first image
 			                          if (count($images) > 0) { // make sure at least one image exists
 			                              $img = $images[0]; // first image
-			                            echo '<img src="'.$img.'" alt="random image" height = "100" width = "100">'."&nbsp;&nbsp;";
+			                            echo '<img src="'.$img.'" alt="random image" height = "100">'."&nbsp;&nbsp;";
 			                          } else {
 			                          	$img = glob("$nophoto")[0];
-			                            echo '<img src="'.$img.'" alt="random image" height = "100" width = "100">'."&nbsp;&nbsp;";
+			                            echo '<img src="'.$img.'" alt="random image" height = "100">'."&nbsp;&nbsp;";
 			                          }
 
 			                          ?>

@@ -44,7 +44,7 @@
 
         if (move_uploaded_file($_FILES["fileToUpload"]["tmp_name"], $target_file)) {
             echo "The file ". basename( $_FILES["fileToUpload"]["name"]). " has been uploaded.";
-            $sql = "UPDATE user_table SET user_pic = '$target_file', user_picname = '$file_name' WHERE username = '$username'";
+            $sql = "UPDATE user_table SET user_pic = '$target_file' WHERE username = '$username'";
             $query = mysqli_query($db, $sql);
             header("location: edit_user.php");
         } else {

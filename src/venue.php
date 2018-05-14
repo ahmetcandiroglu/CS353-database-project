@@ -14,6 +14,8 @@
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 	<!-- Import MaterialUI Icons-->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/material-design-icons/3.0.1/iconfont/material-icons.min.css">
+
+ 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 </head>
 <body>
 
@@ -28,10 +30,9 @@
 		<div class="row">
 			
 			<!-- Left -->
-			<div class="col-4">
+			<div class="col-md-4">
 				<!-- Name -->
                 <h2 class="text-center" style="font-size:32px;margin:9px;">
-                	<i class="material-icons" style="color:#4caf50;">restaurant</i>&nbsp;
                 	<?php echo htmlspecialchars($vname); ?>
                 </h2>
                 
@@ -51,49 +52,86 @@
 	          		}
 	          	?>
                 
-				<!-- Description -->
-                <p class="text-justify" style="margin:14px;">
-                	<?php
-                		echo htmlspecialchars($vdesc);
-                	?> <br>
-                </p>
+				
+            	<!-- Featuring -->
+            	<?php
+            		echo '<br><br><div><strong style="font-size:14px;margin-right:3px;">Featuring</strong>';
+            		
+            		while($row = mysqli_fetch_array($vfeatures, MYSQLI_ASSOC)){
+		              $featureName = $row['featureName'];
+		              $featureDesc = $row['featureDesc'];
+		              echo '<span class="badge badge-info" tabindex="0" data-toggle="tooltip" title="'.$featureDesc.'" style="margin-left:3px;">'.$featureName.'</span>';
+		              
+		            }
+		            echo '</div><br>';
+
+            	?>
 
 				<!-- Plan to visit -->
                 <div style="margin-top:4px;margin-bottom:4px;">
-                	<button class="btn btn-success" type="button" style="padding-top:6px;margin-top:2px;margin-right:3px;margin-bottom:2px;margin-left:3px;font-size:16px;">
-                		<i class="material-icons d-inline" style="width:16px;height:16px;font-size:16px;">bookmark</i>
-                		&nbsp; Plan a visit<br>
-                	</button>
-                    
+                	<?php
+                		if($plannedVisit){
+                			echo '
+                			<button class="btn btn-danger" type="button" style="padding-top:6px;margin-top:2px;margin-right:3px;margin-bottom:2px;margin-left:3px;font-size:16px;" onclick="cancelVisit()">
+                				<i class="material-icons d-inline" style="width:16px;height:16px;font-size:16px;">bookmark</i>
+                				&nbsp; Cancel planned visit<br>
+                			</button>
+                			<br>
+                			<button class="btn btn-success" type="button" style="padding-top:6px;margin-top:2px;margin-right:3px;margin-bottom:2px;margin-left:3px;font-size:16px;" onclick="visited()">
+                				Have you visit '.$vname.'? Check-In!<br>
+                			</button>
+                			';
+                		}
+                		else{
+                			echo '
+                			<button class="btn btn-success" type="button" style="padding-top:6px;margin-top:2px;margin-right:3px;margin-bottom:2px;margin-left:3px;font-size:16px;" onclick="planVisit()">
+                				<i class="material-icons d-inline" style="width:16px;height:16px;font-size:16px;">bookmark</i>
+                				&nbsp; Plan a visit<br>
+                			</button>
+                			';
+                		}
+                	?>
+
                 </div>
             </div>
 
             <!-- Middle -->
-            <div class="col-6 col-md-4 mx-auto">
-				<!-- Featuring -->
-	            <div>
-	            	<strong style="font-size:14px;">Featuring</strong>
-	            	<span class="badge badge-info" style="margin:3px;margin-top:0px;margin-bottom:0px;margin-right:3px;margin-left:7px;">Pizza</span>
-	            	<span class="badge badge-info" style="margin-right:3px;margin-left:0px;">Family</span>
-	            	<span class="badge badge-info" style="margin-right:3px;">Healthy</span>
-	            	<span class="badge badge-info" style="margin-right:3px;">Cosy Place</span>
-	            </div>
-	            
+            <div class="col-md-4">            		
 				<!-- Buttons -->
 	            <div style="margin-top:4px;margin-bottom:4px;padding-top:4px;padding-bottom:4px;">
-	            	<button class="btn btn-success" type="button" style="margin-left:3px;font-size:16px;">
-	            		<i class="material-icons d-inline" style="width:16px;height:16px;font-size:16px;">check_circle</i>&nbsp; Check In<br>
+	            	<button class="btn btn-success" type="button" style="margin-left:1px;font-size:16px;" onclick="showCheckIn()">
+	            		<i class="material-icons d-inline" style="width:16px;height:16px;font-size:16px;">check_circle</i>&nbsp; Check In
 	            	</button>
-                    <button class="btn btn-success" type="button" style="margin-left:3px;font-size:16px;">
+                    <button class="btn btn-success" type="button" style="margin-left:1px;font-size:16px;" onclick="showReview()">
                     	<i class="material-icons d-inline" style="width:16px;height:16px;font-size:16px;">rate_review</i>&nbsp; Review
                     </button>
-                    <button class="btn btn-success" type="button" style="margin-left:3px;font-size:16px;">
-                    	<i class="material-icons d-inline" style="width:16px;height:16px;font-size:16px;">feedback</i>&nbsp;Feedback<br>
+                    <button class="btn btn-success" type="button" style="margin-left:1px;font-size:16px;" onclick="showSuggest()">
+                    	<i class="material-icons d-inline" style="width:16px;height:16px;font-size:16px;">feedback</i>&nbsp;Suggestion
                     </button>
                 </div>
 	            
+	            <!-- Check-In, Review and Suggestion forms -->
+	            <div>
+	            	<div class="card" id="checkInBox">
+					  <h5 class="card-header"><?php echo "Check In to $vname"; ?></h5>
+					  <div class="card-body">
+					    <form action="<?php echo "add_checkin.php?venueID=$venueID&username=$username";?>" 
+					    method="post" enctype="multipart/form-data">    
+						    <p>Add photos!</p>
+						    <input type="file" name="files[]" multiple/>
+						    <br> <br>
+						    <input type="submit" value="Check-In!" id="selectedButton" class="btn btn-success"/>
+						</form>
+					    
+					    <hr>
+					    <p class="font-italic">Tip: You can always make a review of a check-in!</p>
+					</div>
+				</div>
+
+	            </div>
+
 				<!-- Check-In -->
-	            <div class="d-block">
+	            <div>
 	                <div class="card" style="margin-top:5px;margin-bottom:5px;">
 	                    <div class="card-body" style="margin-top:0px;margin-bottom:0px;">
 	                        <h6 class="text-muted card-subtitle mb-2">
@@ -124,10 +162,11 @@
 	                    </div>
 	                </div>
 	            </div>
+
 	        </div>
 						
 	        <!-- Right -->
-	        <div class="col-3">
+	        <div class="col-md-3">
 				<!-- Info -->	
 	            <ul class="list-group">
 	                <li class="list-group-item" style="padding:10px;padding-right:5px;padding-top:0px;padding-bottom:0px;padding-left:5px;">
@@ -147,7 +186,12 @@
 	                </li>
 	                <li class="list-group-item" style="padding-top:2px;padding-right:2px;padding-bottom:2px;padding-left:2px;">
 	                    <p class="text-center" style="padding-bottom:0px;padding-left:2px;padding-right:2px;padding-top:2px;margin:3px;">
-	                    	Tel: +90 312 266 03 02<br>
+	                    	<?php
+	                    		if( preg_match( '/^(\d{3})(\d{3})(\d{4})$/', $vtel,  $matches ) ){
+    								$result = $matches[1] . ' ' .$matches[2] . ' ' . $matches[3];
+	                    			echo "Tel: {$result}<br>";
+								}
+	                    	?>
 	                    </p>
 	                </li>
 	                <li class="list-group-item" style="padding-top:2px;padding-right:2px;padding-bottom:2px;padding-left:2px;">
@@ -187,7 +231,41 @@
 		</div>
 	</div>
 
-	<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+	<script type="text/javascript">
+	    function planVisit() {      
+	      visit(true);
+	    }
+
+	    function cancelVisit() {
+	      visit(false);
+	    }
+
+	    function visited(){
+
+	    }
+
+	    function visit(status) {
+	      var venueID = <?php echo json_encode($venueID, JSON_HEX_TAG); ?>;
+	      $.ajax({
+	        type: "POST",
+	        url: "venue_info.php?venueID=" + venueID,
+	        data: { visited: status },
+	        success: function (data){
+	          console.log(data);
+	          window.location.reload();
+	        },
+	        error: function (){
+	          console.log("Something went wrong!");
+	        }
+	      });
+	    }
+
+	    function showCheckIn() {
+
+
+	    }
+  	</script>
+
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js" integrity="sha384-smHYKdLADwkXOn1EmN1qk/HfnUcbVRZyYmZ4qpPea6sjB/pTJ0euyQp0Mk8ck+5T" crossorigin="anonymous"></script>
 </body>
