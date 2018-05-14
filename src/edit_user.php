@@ -6,7 +6,8 @@
 
 	if (isset($_POST['btnSave']))
 	{
-	  if(empty(trim($_POST['firstName'])) || empty(trim($_POST['lastName'])) || empty(trim($_POST['username'])) || empty(trim($_POST['userEmaili'])) || empty(trim($_POST['city'])) )
+	  if(empty(trim($_POST['firstName'])) || empty(trim($_POST['lastName'])) || empty(trim($_POST['username'])) || empty(trim($_POST['userEmaili'])) )
+	  	//|| empty(trim($_POST['city'])) )
 	  {
 	      $userCity_err = "Please complete all the forms!";
 	  }
@@ -16,7 +17,7 @@
 	    $userLastNameValue = trim($_POST['lastName']);
 	    $usernameValue = trim($_POST['username']);
 	    $EmailValue =  trim($_POST['userEmaili']);
-	    $cityValue =  trim($_POST['city']);
+	    //$cityValue =  trim($_POST['city']);
 	    $sql = "SELECT * FROM user_table WHERE username = '$usernameValue' ";
 	    $query = mysqli_query($db, $sql);
 	    $rowcount=mysqli_num_rows($query);
@@ -34,7 +35,16 @@
 	    }
 	    else
 	    {
-	      $sql = "UPDATE user_table SET username = '$usernameValue', user_firstName = '$userFirstNameValue', user_lastName = '$userLastNameValue', user_email = '$EmailValue', city = '$cityValue'   WHERE username = '$username'";
+	      //Update City
+		  $selected_key = $_POST['city'];
+		  $ct = $selected_key;
+		  $sqlc = "SELECT cityID FROM city WHERE cityName = '$ct'";
+		  $queryc = mysqli_query($db, $sqlc);
+		  $rowc = mysqli_fetch_array($queryc);
+		  $cityID = $rowc['cityID'];
+		  echo $cityID;
+
+	      $sql = "UPDATE user_table SET username = '$usernameValue', user_firstName = '$userFirstNameValue', user_lastName = '$userLastNameValue', user_email = '$EmailValue', user_cityID = '$cityID'   WHERE username = '$username'";
 	      $query = mysqli_query($db, $sql);
 	      $_SESSION['username'] = $usernameValue;
 	      header("location: profile_edited.php");
@@ -55,11 +65,11 @@
 
 <body>
 	<?php include_once "navigation.php"; ?>
-	
+
 	<br> <br>
 
 	<div class="row">
-		
+
 		<div class="col-lg-6 offset-lg-3">
 
         <form action=" <?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?> " method="post">
@@ -108,11 +118,54 @@
 						</div>
 						<div class="row">
 							<div class="col-lg-6">
-				                <div class="form-group <?php echo (!empty($userCity_err)) ? 'has-error' : ''; ?>">
-				                    <b><label>City</label></b>
-				                    <input type="text" name="city" class="form-control" value="<?php echo htmlspecialchars($userCity); ?>">
-				                    <span class="help-block"><?php echo $userCity_err; ?></span>
-				                </div>
+				                <div class="form-group <?php echo (!empty($city_err)) ? 'has-error' : ''; ?>">
+				                    <b><label>Choose your Country</label></b>
+				                    <div class="dropdown show">
+									  <select id="city" name="city">
+										<?php
+											$countries = "SELECT countryName FROM country";
+											$querycountries = mysqli_query($db, $countries);
+
+											echo "<option value='0'>--Select Country--";
+										    echo "</option>'";
+											while($rowc = mysqli_fetch_assoc($querycountries)){
+													echo "<option value='";
+													echo $rowc['countryName'];
+													echo "'>";
+													echo $rowc['countryName'];
+													echo "</option>";
+											}
+										?>
+
+									</select>
+								</div>
+				       </div>
+							</div>
+							<div class="col-lg-6">
+				                <div class="form-group <?php echo (!empty($city_err)) ? 'has-error' : ''; ?>">
+				                    <b><label>Choose your City</label></b>
+				                    <div class="dropdown show">
+									  <select id="city" name="city">
+										<?php
+											$cities = "SELECT cityName FROM city";
+											$querycities = mysqli_query($db, $cities);
+
+											echo "<option value='0'>--Select City--";
+										    echo "</option>'";
+											while($rowc = mysqli_fetch_assoc($querycities)){
+												if($rowc['cityName'] != $city_Name){
+													echo "<option value='";
+													echo $rowc['cityName'];
+													echo "'>";
+													echo $rowc['cityName'];
+													echo "</option>";
+												}
+											}
+										?>
+
+									</select>
+								</div>
+				       </div>
 							</div>
 				      	</div>
             			<div class="row">
@@ -126,10 +179,10 @@
 			                          //display first image
 			                          if (count($images) > 0) { // make sure at least one image exists
 			                              $img = $images[0]; // first image
-			                            echo '<img src="'.$img.'" alt="random image" height = "100">'."&nbsp;&nbsp;";
+			                            echo '<img src="'.$img.'" alt="random image" height = "100" width = "100">'."&nbsp;&nbsp;";
 			                          } else {
 			                          	$img = glob("$nophoto")[0];
-			                            echo '<img src="'.$img.'" alt="random image" height = "100">'."&nbsp;&nbsp;";
+			                            echo '<img src="'.$img.'" alt="random image" height = "100" width = "100">'."&nbsp;&nbsp;";
 			                          }
 
 			                          ?>
