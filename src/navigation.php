@@ -1,6 +1,6 @@
 <nav class="navbar navbar-expand-lg navbar-light bg-primary">
   <a class="navbar-brand" href="#" style="color: white;"><b>Social Network</b></a>
-  
+
   <div class="collapse navbar-collapse" id="navbarTogglerDemo02">
     <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
       <li class="nav-item" >
@@ -13,7 +13,7 @@
         <a style="color: white;" class="nav-link" href="#">Messages &nbsp;</a>
       </li>
     </ul>
-    
+
     <form class="form-inline my-2 my-lg-0">
       <div class="nav-item">
         <?php
@@ -24,13 +24,13 @@
           if (count($images) > 0) { // make sure at least one image exists
             $img = $images[0]; // first image
             echo '<img src="'.$img.'" height = "50">'."&nbsp;&nbsp;";
-          } 
+          }
           else{
             $img = glob("$nophoto")[0]; // first image
             echo '<img src="'.$img.'" height = "50">'."&nbsp;&nbsp;";
           }
         ?>
-          
+
           <?php echo htmlspecialchars($userFullName); ?>&nbsp;
         </a>
       </div>
@@ -38,7 +38,7 @@
         if($accountType == 1)
         {
           echo '<div class="nav-item">';
-          echo '<a style="color: white;" class="nav-link" href="#">My Venues &nbsp;</a>';
+          echo '<a style="color: white;" class="nav-link" href="my_venues.php">My Venues &nbsp;</a>';
           echo '</div>';
         }
       ?>
