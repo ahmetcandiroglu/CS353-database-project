@@ -14,7 +14,7 @@ body{
 	width: 200px;
 }
 
-.proposal-image, .design-report-image{
+.proposal-image, .design-report-image, .final-report-image{
 	width: 800px;
 	display: block;
 }
