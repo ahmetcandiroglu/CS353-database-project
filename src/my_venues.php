@@ -39,7 +39,7 @@
 				<th>Open Time</th>
         <th>Close Time </th>
         <th>Venue Created </th>
-        <th>Edit Venue </th>
+        <th>View Venue </th>
         <th>Delete Venue </th>
 			</tr>
 		</thead>
@@ -61,8 +61,8 @@
       echo "<td>".$row['venueOpenTime']."</td>";
       echo "<td>".$row['venueCloseTime']."</td>";
       echo "<td>".date('F d, Y', strtotime($row['venueCreated']))."</td>";
-      //echo "<td><a href=close.php?aid=".$row['venueID'].">Edit</a></td>";
-      //echo "<td><a href=close.php?aid=".$row['venueID'].">Close</a></td>";
+      echo "<td><a href=venue.php?venueID=".$row['venueID'].">View Venue</a></td>";
+      echo "<td><a href=close_venue.php?venueID=".$row['venueID'].">Close</a></td>";
       echo "<tr>";
       $no++;
 		}
