@@ -1,5 +1,7 @@
 <?php
     require_once 'venue_info.php';
+    require_once 'checkIn.php';
+  	require_once 'review.php';
 ?>
 
 <html>
@@ -215,37 +217,10 @@
 				</div>
 
 				<!-- Check-In -->
-	            <div>
-	                <div class="card" style="margin-top:5px;margin-bottom:5px;">
-	                    <div class="card-body" style="margin-top:0px;margin-bottom:0px;">
-	                        <h6 class="text-muted card-subtitle mb-2">
-	                        	Jean, 22 February 2015
-	                        	<i class="material-icons float-right" style="font-size:16px;">thumb_down</i>
-	                        	<span class="badge badge-pill badge-light float-right">+7</span>
-	                        	<i class="material-icons float-right" style="font-size:16px;">thumb_up</i>
-	                        </h6>
-	                        <p class="text-left card-text" style="font-size:14px;">
-	                        	Pizzalar anlatıldığı gibi muhteşem. Tavuk Sezar pizza ve Füme Kaburga efsane. Keşke Nutellalı Pizzaya da yer kalsaydı. Bilkent Station içinde güzel bir yer olmuş.<br>
-	                        </p>
-	                        <img class="img-fluid" width="100px" style="margin-right:5px;margin-left:5px;">
-	                        <img class="img-fluid" src="https://lh3.googleusercontent.com/p/AF1QipPribqPaGOErVapQ_ynL938jf-h8rvHLw9UkAon=w600-k" width="100px">
-	                    </div>
-	                </div>
-
-	                <div class="card" style="margin-top:5px;margin-bottom:5px;">
-	                    <div class="card-body" style="margin-top:5px;margin-bottom:5px;">
-	                        <h6 class="text-muted card-subtitle mb-2">
-	                        	Sefa, 5 September 2015
-	                        	<i class="material-icons float-right" style="font-size:16px;">thumb_down</i>
-	                        	<span class="badge badge-pill badge-light float-right">+5</span>
-	                        	<i class="material-icons float-right" style="font-size:16px;">thumb_up</i>
-	                        </h6>
-	                        <p class="text-left card-text" style="font-size:14px;">
-	                        	Bildiğiniz klişe mekanları unutunun! İl Forno gerçekten pizza yemek isteyenler için bir numara olmalı. Çalışanlar, ilgi, alaka, sunum harika. Ayrıca fiyatlarda çok uygun. Not küçük boy gayet doyurucu.<br>
-	                        </p>
-	                    </div>
-	                </div>
-	            </div>
+		        <?php
+	                printReviewsVenue($venueID, $db);
+	                printCheckInsVenue($venueID, $db);
+                ?>
 
 	        </div>
 						
@@ -347,7 +322,7 @@
 	    function showArea(id) {
 	    	if(!id)
 	    		id = "checkInBox";
-	    	
+
 	    	document.getElementById(id).style.display = "block";
 	    	document.getElementById('checkinBtn').disabled = true;
 	    	document.getElementById('reviewBtn').disabled = true;
@@ -368,6 +343,52 @@
 	    	document.getElementById('checkinBtn').disabled = false;
 	    	document.getElementById('reviewBtn').disabled = false;
 	    	document.getElementById('suggestionBtn').disabled = false;
+	    }
+
+	    function like(self) {
+      		likeRequest(self.id, 'like');
+	    }
+
+	    function dislike(self) {
+	      likeRequest(self.id, 'unlike');
+	    }
+
+	    function likeRequest(checkinID, status) {
+	      $.ajax({
+	        type: "POST",
+	        url: "checkIn.php",
+	        data: { cid: checkinID, status: status},
+	        success: function (data){
+	          console.log(data);
+	          window.location.reload();
+	        },
+	        error: function (){
+	          console.log("Something went wrong!");
+	        }
+	      });
+	    }
+
+	    function likeReview(self) {
+	      likeRequestReview(self.id, 'like');
+	    }
+
+	    function dislikeReview(self) {
+	      likeRequestReview(self.id, 'unlike');
+	    }
+
+	    function likeRequestReview(rid, status) {
+	      $.ajax({
+	        type: "POST",
+	        url: "review.php",
+	        data: { rid: rid, status: status},
+	        success: function (data){
+	          console.log(data);
+	          window.location.reload();
+	        },
+	        error: function (){
+	          console.log("Something went wrong!");
+	        }
+	      });
 	    }
   	</script>
 
