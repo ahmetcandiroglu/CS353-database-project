@@ -110,16 +110,18 @@
               }
               
             ?>
-            <button class="btn btn-success" type="button" id="sendMsg"
-              style="padding-top:6px;margin-top:2px;margin-right:3px;margin-bottom:2px;margin-left:3px;
-              <?php
-                if($owns){
-                  echo 'display: none;';
-                }
-              ?>">
-                <i class="material-icons d-inline" style="width:16px;height:16px;font-size:16px;">message</i>
-                &nbsp; Send Message
-            </button>
+            <a href="send_message?receiverName=<?php echo $profileName; ?>">
+              <button class="btn btn-success" type="button" id="sendMsg"  onclick="sendMsg()"
+                style="padding-top:6px;margin-top:2px;margin-right:3px;margin-bottom:2px;margin-left:3px;
+                <?php
+                  if($owns){
+                    echo 'display: none;';
+                  }
+                ?>">
+                  <i class="material-icons d-inline" style="width:16px;height:16px;font-size:16px;">message</i>
+                  &nbsp; Send Message
+              </button>
+            </a>
           </div>
           
           <!-- Check-In -->
