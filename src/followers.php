@@ -2,7 +2,6 @@
   require_once 'navigation_info.php';
 
   $username = $_SESSION['username'];
-  $userTemporary = "";
 
   //Venue info
   $sql = "SELECT *
@@ -59,36 +58,7 @@
       echo "<td>".$row1['user_firstName']."</td>";
       echo "<td>".$row1['username']."</td>";
       echo "<td><a href=redirect_message.php?receiverName=".$row1['username'].">Send Message</a></td>";
-      // Owns profile
-      if($followerTempUsername == $username){
-          $owns = true;
-          $follows = true;
-      }
-      else{
-          $sql = "SELECT COUNT(*) as followCount
-                  FROM follows
-                  WHERE follower = '$username' and followed = '$followerTempUsername'";
-          $query = mysqli_query($db, $sql);
-          $row = mysqli_fetch_array($query);
-          $follows = ($row['followCount'] > 0) ? true : false;
-          $owns = false;
-      }
-        if(!$follows){
-          echo '
-            <td><button class="btn btn-success" type="button" onclick="followed()" style="padding-top:6px;margin-top:2px;margin-right:3px;margin-bottom:2px;margin-left:3px;font-size:16px;">
-              <i class="material-icons d-inline" style="width:16px;height:16px;font-size:16px;">add_circle</i>
-              &nbsp; Follow
-            </button></td>';
-        }
-        else{
-          echo '
-            <td><button class="btn btn-danger" type="button" onclick="unfollowed()" style="padding-top:6px;margin-top:2px;margin-right:3px;margin-bottom:2px;margin-left:3px;font-size:16px;">
-              <i class="material-icons d-inline" style="width:16px;height:16px;font-size:16px;">remove_circle</i>
-              &nbsp; Unfollow
-            </button></td>';
-        }
-
-
+      echo "<td><a href=profile.php?profileName=".$row1['username'].">Open Profile</a></td>";
       echo "<tr>";
       $no++;
 		}
@@ -98,30 +68,5 @@
 	</table>
 </div>
   </div>
-  <script type="text/javascript">
-    function followed() {
-      follow(true);
-    }
-
-    function unfollowed() {
-      follow(false);
-    }
-
-    function follow(status) {
-      var pname = <?php echo json_encode($userTemporary, JSON_HEX_TAG); ?>;
-      $.ajax({
-        type: "POST",
-        url: "followers.php",
-        data: { followed: status },
-        success: function (data){
-          console.log(data);
-          window.location.reload();
-        },
-        error: function (){
-          console.log("Something went wrong!");
-        }
-      });
-    }
-    </script>
 </body>
 </html>
