@@ -10,11 +10,11 @@
     $accountType = $row['user_profileType'];
     if($accountType == 1)
     {
-      header("refresh:1; url=homepage_manager.php");
+      header("refresh:1; url=explore.php");
     }
     else if($accountType == 2)
     {
-      header("refresh:1; url=homepage_user.php");
+      header("refresh:1; url=explore.php");
     }
     else
       echo "Problem with redirection!";

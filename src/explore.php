@@ -55,12 +55,9 @@
 	  	<div class="row">&nbsp;</div>	
 	  	<div class="row">&nbsp;</div>
 	  	<div class="row">&nbsp;</div>	
-	  	<div class="row">&nbsp;</div>
-	  	<div class="row">&nbsp;</div>	
-	  	<div class="row">&nbsp;</div>
 	  	<form action=" <?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?> " method="post">
 		<div class="row">
-			<div class="col-lg-12">
+			<div class="col-lg-2">
 				<script language="javascript" type="text/javascript">
 			    function dynamicdropdown(listindex)
 			    {
@@ -82,9 +79,9 @@
 			    }
 			    </script>
 			 
-			 	<div class="row">
-			 		<div class="col-lg-3"></div>
-					 <div class="col-lg-5"> 
+			 </div>	
+			 		
+					 <div class="col-lg-2"> 
 				    <div class="countrydiv" id="countrydiv"><b>Country:</b>
 				        <select id="country1" name="country1" onchange="javascript: dynamicdropdown(this.options[this.selectedIndex].value);">
 				        <option value="0">Select Country</option>
@@ -93,26 +90,20 @@
 				        </select>
 				    </div>
 				</div>
-				 </div>
-				<div class="row">&nbsp;</div>	
-	  			<div class="row">&nbsp;</div>
-				 <div class="row">	
-				 <div class="col-lg-3"></div>
-				 <div class="col-lg-5"> 
-				    <div class="citydiv" id="citydiv"><b>City:</b>
+				
+				
+
+				 <div class="col-lg-2"> 
+				    <div class="citydiv" id="citydiv"><b>&nbsp; &nbsp;City: &nbsp; &nbsp;</b>
 				        <script type="text/javascript" language="JavaScript">
 				        document.write('<select name="city" id="city"><option value="0">Select City</option></select>')
 				        </script>
 				    </div>
 				</div>
-				 </div>
-				 <div class="row">&nbsp;</div>	
-	  			<div class="row">&nbsp;</div>
-				 <div class="row">	
-					 <div class="col-lg-3"></div>
-					 <div class="col-lg-5">
-					 	<div class="categorydiv" id="categorydiv"><b>Category:</b>
-					 		<select id="category" name="category"> 
+				
+				<div class="col-lg-2">
+					 <div class="categorydiv" id="categorydiv"><b>Category:</b>
+					 	<select id="category" name="category"> 
 						 		<?php 
 	                                $categories = "SELECT categoryID, categoryName FROM category";
 	                                $querycat = mysqli_query($db, $categories);
@@ -129,12 +120,8 @@
 	                        </select>
 	                    </div>
 	                </div>
-	            </div>
-	             <div class="row">&nbsp;</div>	
-	  			<div class="row">&nbsp;</div>
-				 <div class="row">	
-					 <div class="col-lg-3"></div>
-					 <div class="col-lg-5">
+	          
+					 <div class="col-lg-2">
 					 	<div class="featurediv" id="featurediv"><b>Feature:</b>
 					 		<select id="feature" name="feature"> 
 						 		<?php 
@@ -171,8 +158,9 @@
 	</form>
 
 <div class="row">
-	<div class="col-lg-12">
-		<input type="text" id="myInput" onkeyup="myFunction()" placeholder="Search for venue.." title="Type in a name">
+	<div class="col-lg-2">&nbsp;</div>
+	<div class="col-lg-8">
+		
 			<table id="myTable">
 					  <tr class="header">
 					  	<th style="width:5%;"></th>
@@ -193,7 +181,7 @@
 
 							//None is selected
 						  	if($selected_feature == 0 && $selected_category == 0 && $selected_city == 0 && $selected_country == 0){							
-								echo "Select at least one";
+								//echo "Select at least one of options above.";
 							}
 							//Each city in the coutry
 							if($selected_feature == 0 && $selected_category == 0 && $selected_city == 0 && $selected_country != 0){
@@ -208,11 +196,12 @@
 									
 									$i = 1;
 									while($rowcity = mysqli_fetch_assoc($quer2)){
+									//echo $rowcity['venuePic'];
 									echo "<tr>";
 										echo "<td>"; echo $i; echo "</td>";
 							  			echo "<td><a href='venue.php?venueID=";
 							  			echo $rowcity['venueID'];
-							  			echo "'><img src='"; echo $rowc['venuePic']; echo"' class='rounded-circle' style='width: 30px; height: 30px;' alt='Cinque Terre'></a></td>";
+							  			echo "'><img src='"; echo $rowcity['venuePic']; echo"' class='rounded-circle' style='width: 30px; height: 30px;' alt='Cinque Terre'></a></td>";
 							    		echo "<td><a href='venue.php?venueID=";
 							    		echo $rowcity['venueID'];
 							    		echo "'>";
@@ -245,7 +234,7 @@
 									echo "<td>"; echo $i; echo "</td>";
 						  			echo "<td><a href='venue.php?venueID=";
 						  			echo $rowcity['venueID'];
-						  			echo "'><img src='"; echo $rowc['venuePic']; echo"' class='rounded-circle' style='width: 30px; height: 30px;' alt='Cinque Terre'></a></td>";
+						  			echo "'><img src='"; echo $rowcity['venuePic']; echo"' class='rounded-circle' style='width: 30px; height: 30px;' alt='Cinque Terre'></a></td>";
 						    		echo "<td><a href='venue.php?venueID=";
 						    		echo $rowcity['venueID'];
 						    		echo "'>";
@@ -284,7 +273,7 @@
 										echo "<td>"; echo $i; echo "</td>";
 							  			echo "<td><a href='venue.php?venueID=";
 							  			echo $meh['venueID'];
-							  			echo "'><img src='"; echo $rowc['venuePic']; echo"' class='rounded-circle' style='width: 30px; height: 30px;' alt='Cinque Terre'></a></td>";
+							  			echo "'><img src='"; echo $meh['venuePic']; echo"' class='rounded-circle' style='width: 30px; height: 30px;' alt='Cinque Terre'></a></td>";
 							    		echo "<td><a href='venue.php?venueID=";
 							    		echo $meh['venueID'];
 							    		echo "'>";
@@ -325,7 +314,7 @@
 											echo "<td>"; echo $i; echo "</td>";
 								  			echo "<td><a href='venue.php?venueID=";
 								  			echo $rowcity['venueID'];
-								  			echo "'><img src='"; echo $rowc['venuePic']; echo"' class='rounded-circle' style='width: 30px; height: 30px;' alt='Cinque Terre'></a></td>";
+								  			echo "'><img src='"; echo $rowcity['venuePic']; echo"' class='rounded-circle' style='width: 30px; height: 30px;' alt='Cinque Terre'></a></td>";
 								    		echo "<td><a href='venue.php?venueID=";
 								    		echo $rowcity['venueID'];
 								    		echo "'>";
@@ -364,7 +353,7 @@
 										echo "<td>"; echo $i; echo "</td>";
 							  			echo "<td><a href='venue.php?venueID=";
 							  			echo $rowcity['venueID'];
-							  			echo "'><img src='"; echo $rowc['venuePic']; echo"' class='rounded-circle' style='width: 30px; height: 30px;' alt='Cinque Terre'></a></td>";
+							  			echo "'><img src='"; echo $rowcity['venuePic']; echo"' class='rounded-circle' style='width: 30px; height: 30px;' alt='Cinque Terre'></a></td>";
 							    		echo "<td><a href='venue.php?venueID=";
 							    		echo $rowcity['venueID'];
 							    		echo "'>";
@@ -401,7 +390,7 @@
 										echo "<td>"; echo $i; echo "</td>";
 							  			echo "<td><a href='venue.php?venueID=";
 							  			echo $rowcity['venueID'];
-							  			echo "'><img src='"; echo $rowc['venuePic']; echo"' class='rounded-circle' style='width: 30px; height: 30px;' alt='Cinque Terre'></a></td>";
+							  			echo "'><img src='"; echo $rowcity['venuePic']; echo"' class='rounded-circle' style='width: 30px; height: 30px;' alt='Cinque Terre'></a></td>";
 							    		echo "<td><a href='venue.php?venueID=";
 							    		echo $rowcity['venueID'];
 							    		echo "'>";
@@ -417,17 +406,19 @@
 								}
 							}
 							//Only feature is selected
-							if($selected_feature != 0 && $selected_category == 0 && $selected_city == 0 && $selected_country == 0){
+							if($selected_feature != ""){
+								//echo $selected_feature;
 								$count4 = "SELECT venueID FROM feature WHERE featureName = '$selected_feature'";
 								$quer4 = mysqli_query($db, $count4);
 
 								$i = 1;
 								while($row = mysqli_fetch_assoc($quer4)){
 									$id = $row['venueID'];
+									//echo $id;
 									$count5 = "SELECT venueID, venueName, venueDesc, venueTel, venuePic, cityID FROM venue WHERE venueID = '$id'";	
 									$quer5 = mysqli_query($db, $count5);
-
 									$meh = mysqli_fetch_assoc($quer5);
+
 									$citID = $meh['cityID'];
 
 									$cnam = "SELECT cityName FROM city WHERE cityID = '$citID'";
@@ -440,7 +431,7 @@
 										echo "<td>"; echo $i; echo "</td>";
 							  			echo "<td><a href='venue.php?venueID=";
 							  			echo $meh['venueID'];
-							  			echo "'><img src='"; echo $rowc['venuePic']; echo"' class='rounded-circle' style='width: 30px; height: 30px;' alt='Cinque Terre'></a></td>";
+							  			echo "'><img src='"; echo $meh['venuePic']; echo"' class='rounded-circle' style='width: 30px; height: 30px;' alt='Cinque Terre'></a></td>";
 							    		echo "<td><a href='venue.php?venueID=";
 							    		echo $meh['venueID'];
 							    		echo "'>";
@@ -477,7 +468,7 @@
 										echo "<td>"; echo $i; echo "</td>";
 							  			echo "<td><a href='venue.php?venueID=";
 							  			echo $rowcity['venueID'];
-							  			echo "'><img src='"; echo $rowc['venuePic']; echo"' class='rounded-circle' style='width: 30px; height: 30px;' alt='Cinque Terre'></a></td>";
+							  			echo "'><img src='"; echo $rowcity['venuePic']; echo"' class='rounded-circle' style='width: 30px; height: 30px;' alt='Cinque Terre'></a></td>";
 							    		echo "<td><a href='venue.php?venueID=";
 							    		echo $rowcity['venueID'];
 							    		echo "'>";
@@ -492,8 +483,6 @@
 							  		$i++;
 								}
 							}
-
-
 						}	
 					
 					  ?>
