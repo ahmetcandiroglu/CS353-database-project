@@ -1,11 +1,23 @@
 <?php
 	// Include config file
 	require_once 'navigation_info.php';
-	$userFirstName_err = $userLastName_err = $username_err = $userEmail_err = $userCity_err = "";
-	$userFirstNameValue = $userLastNameValue = $usernameValue = $EmailValue = $cityValue = "";
+	$message_err = "";
+	$message = "";
 
-	if (isset($_POST['btnSave']))
+	$receiverUsername = $_SESSION['messageReceiver'];
+
+	if (isset($_POST['btnSend']))
 	{
+    // Check if username is empty
+    if(empty(trim($_POST["message"]))){
+        $message_err = 'Please enter a message.';
+    } else{
+        $message = trim($_POST["message"]);
+        $sql = "INSERT INTO messages(sender, receiver, message) VALUES ('$username', '$receiverUsername', '$message') ";
+        $query = mysqli_query($db, $sql);
+				unset($_SESSION['messageReceiver']);
+				header("location:profile.php?profileName=$receiverUsername");
+    }
 
 	}
 ?>
@@ -43,7 +55,7 @@
 							<div class="col-lg-12">
 								<div class="form-group">
 				                    <b><label>From</label></b>
-				                    <input type="text" name="firstName"class="form-control" value="<?php echo htmlspecialchars($userFirstName); ?>">
+				                    <input disabled type="text" name="senderUsername"class="form-control" value="<?php echo htmlspecialchars($username); ?>">
 				                </div>
 							</div>
 						</div>
@@ -51,24 +63,32 @@
               <div class="col-lg-12">
 								<div class="form-group">
 				                    <b><label>To</label></b>
-				                    <input type="text" name="firstName"class="form-control" value="<?php echo htmlspecialchars($userFirstName); ?>">
+				                    <input disabled type="text" name="receiverUsername"class="form-control" value="<?php echo htmlspecialchars($receiverUsername); ?>">
 				                </div>
 							</div>
 						</div>
             <div class="row">
               <div class="col-lg-12">
-								<div class="form-group">
-				                    <b><label>Message</label></b>
-                            <textarea class="form-control" name="message" rows="5" id="myMessage"></textarea>
-				                </div>
+                <div class="form-group <?php echo (!empty($message_err)) ? 'has-error' : ''; ?>">
+                    <label><b>Message</b></label>
+                    <textarea class="form-control" name="message" rows="5" id="myMessage"></textarea>
+                    <span class="help-block"><?php echo $message_err; ?></span>
+                </div>
 							</div>
 						</div>
 				      	<hr>
 						<div class="row">
 							<div class="col-lg-4 offset-lg-4">
 								<div class="form-group text-center">
-				                    <input type="submit" name="btnSave"class="btn btn-success" value="Send">
-				                    <input type="submit" name="btnCancel"class="btn btn-info" value="Cancel">
+				                    <input type="submit" name="btnSend"class="btn btn-success" value="Send">
+                            <a href="profile.php?profileName=<?php echo $receiverUsername; ?>">
+                              <button class="btn btn-info" type="button" id="cancelMes"
+                                style="padding-top:6px;margin-top:2px;margin-right:3px;margin-bottom:2px;margin-left:3px;>
+                                  <i class="material-icons d-inline" style="width:16px;height:16px;font-size:16px;"></i>
+                                   Cancel
+                              </button>
+                            </a>
+                          </a>
 				                </div>
 				            </div>
 						</div>
