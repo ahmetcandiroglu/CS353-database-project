@@ -12,6 +12,12 @@
       <li class="nav-item">
         <a style="color: white;" class="nav-link" href="#">Messages &nbsp;</a>
       </li>
+      <li class="nav-item">
+        <a style="color: white;" class="nav-link" href="plan_to_visit.php">Plan To Visit &nbsp;</a>
+      </li>
+      <li class="nav-item">
+        <a style="color: white;" class="nav-link" href="has_favorite.php">Favorite Venues &nbsp;</a>
+      </li>
     </ul>
 
     <form class="form-inline my-2 my-lg-0">

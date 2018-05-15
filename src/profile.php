@@ -17,12 +17,12 @@
   <!-- Import MaterialUI Icons-->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/material-design-icons/3.0.1/iconfont/material-icons.min.css">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-  
+
 </head>
 <body>
- 
+
   <!-- Header -->
-  <?php 
+  <?php
         include_once "navigation.php";
   ?>
 
@@ -31,7 +31,7 @@
   <div class="container">
 
     <div class="row">
-      
+
       <!-- Left -->
       <div class="col-md-4">
           <!-- Name -->
@@ -98,7 +98,7 @@
                 echo '
                   <button class="btn btn-success" type="button" onclick="followed()" style="padding-top:6px;margin-top:2px;margin-right:3px;margin-bottom:2px;margin-left:3px;font-size:16px;">
                     <i class="material-icons d-inline" style="width:16px;height:16px;font-size:16px;">add_circle</i>
-                    &nbsp; Follow 
+                    &nbsp; Follow
                   </button>';
               }
               else if(!$owns && $follows){
@@ -108,9 +108,9 @@
                     &nbsp; Unfollow
                   </button>';
               }
-              
+
             ?>
-            <a href="send_message?receiverName=<?php echo $profileName; ?>">
+            <a href="send_message.php?receiverName=<?php echo $profileName; ?>">
               <button class="btn btn-success" type="button" id="sendMsg"  onclick="sendMsg()"
                 style="padding-top:6px;margin-top:2px;margin-right:3px;margin-bottom:2px;margin-left:3px;
                 <?php
@@ -123,17 +123,17 @@
               </button>
             </a>
           </div>
-          
+
           <!-- Check-In -->
           <?php
                 printReviews($profileName, $db);
                 printCheckIns($profileName, $db);
           ?>
       </div>
-      
+
       <!-- Right -->
       <div class="col-md-3">
-        
+
         <!-- Followers -->
         <a class="text-primary" href="#"><?php echo "{$pfollowerc} Followers"?></a>
         <div class="card-group">
@@ -142,7 +142,7 @@
               $followerName = $row['fname'];
               $search_dir = $row['fpic'];
               $images = glob("$search_dir");
-              
+
               // Image selection and display:
               // Display first image
               if (count($images) > 0) { // make sure at least one image exists
@@ -167,7 +167,7 @@
         <div class="card-group">
             <?php
               while($row = mysqli_fetch_array($pfollowings, MYSQLI_ASSOC)){
-                $followingName = $row['fname']; 
+                $followingName = $row['fname'];
                 $search_dir = $row['fpic'];
                 $images = glob("$search_dir");
 
@@ -220,7 +220,7 @@
   </div>
 
   <script type="text/javascript">
-    function followed() {      
+    function followed() {
       follow(true);
     }
 

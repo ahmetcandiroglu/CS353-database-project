@@ -8,7 +8,7 @@
     $username = $_GET['username'];
     $venueID = $_GET['venueID'];
     $rating = (int)$_POST['rating'];
-    $reviewText = mysql_real_escape_string($_POST['reviewText']);
+    $reviewText = mysqli_real_escape_string($_POST['reviewText']);
 
     //Insert check-in and get ID
     $sql = "INSERT INTO checkin (username, venueID)
@@ -44,9 +44,9 @@
 
         $ext=pathinfo($file_name,PATHINFO_EXTENSION);
         if(in_array($ext,$extension)){
-            
+
             $target_file = $target_dir . $file_name;
-            
+
             if (move_uploaded_file($file_tmp, $target_file)) {
                 echo "The file ". $file_name . " has been uploaded.\n";
                 //Insert photo to db
@@ -58,10 +58,10 @@
                 $sql = "INSERT INTO checkin_photo (checkinID, photoID)
                         VALUES ($checkinID, $photoID)";
                 $query = mysqli_query($db, $sql);
-            } 
+            }
             else {
                 echo "Sorry, there was an error uploading your file.\n";
-            }   
+            }
         }
     }
 

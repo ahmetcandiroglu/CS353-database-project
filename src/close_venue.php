@@ -1,5 +1,5 @@
 <?php
-
+    
     require_once 'navigation_info.php';
     $sql = "DELETE FROM venue WHERE venueID = '$_GET[venueID]'";
 
