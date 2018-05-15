@@ -44,12 +44,12 @@
 
 		            // Image selection and display:
 		            // Display first image
-		            if (count($images) > 0) { // make sure at least one image exists
+		            if (!empty($vpic) && count($images) > 0) { // make sure at least one image exists
 		              $img = $images[0]; // first image
 		              echo '<img class="img-fluid" src="'.$img.'">';
 		            }
 		            else{
-		            	$img = glob("$nophoto")[0]; // first image
+		            	$img = glob("$nophotoVenue")[0]; // first image
 		            	echo '<img class="img-fluid" src="'.$img.'">';
 	          		}
 	          	?>
@@ -72,25 +72,61 @@
 				<!-- Plan to visit -->
                 <div style="margin-top:4px;margin-bottom:4px;">
                 	<?php
-                		if($plannedVisit){
+                		if($ownsVenue){
                 			echo '
-                			<button class="btn btn-danger" type="button" style="padding-top:6px;margin-top:2px;margin-right:3px;margin-bottom:2px;margin-left:3px;font-size:16px;" onclick="cancelVisit()">
-                				<i class="material-icons d-inline" style="width:16px;height:16px;font-size:16px;">bookmark</i>
-                				&nbsp; Cancel planned visit<br>
+                			<a href="view_suggestion.php"
+                			<button class="btn btn-success" type="button" style="padding-top:6px;margin-top:2px;margin-right:3px;margin-bottom:2px;margin-left:3px;font-size:16px;" onclick="viewSuggestions()">
+                				<i class="material-icons d-inline" style="width:16px;height:16px;font-size:16px;">feedback</i>
+                				&nbsp; View suggestions<br>
                 			</button>
-                			<br>
-                			<button class="btn btn-success" type="button" style="padding-top:6px;margin-top:2px;margin-right:3px;margin-bottom:2px;margin-left:3px;font-size:16px;" onclick="showArea()">
-                				Have you visit '.$vname.'? Check-In!<br>
+                			</a>
+
+                			<a href="edit_venue.php"
+                			<button class="btn btn-success" type="button" style="padding-top:6px;margin-top:2px;margin-right:3px;margin-bottom:2px;margin-left:3px;font-size:16px;" onclick="editVenue()">
+                				<i class="material-icons d-inline" style="width:16px;height:16px;font-size:16px;">edit</i>
+                				&nbsp; Edit venue<br>
                 			</button>
+                			</a>
                 			';
                 		}
                 		else{
-                			echo '
-                			<button class="btn btn-success" type="button" style="padding-top:6px;margin-top:2px;margin-right:3px;margin-bottom:2px;margin-left:3px;font-size:16px;" onclick="planVisit()">
-                				<i class="material-icons d-inline" style="width:16px;height:16px;font-size:16px;">bookmark</i>
-                				&nbsp; Plan a visit<br>
-                			</button>
-                			';
+	                		if($plannedVisit){
+	                			echo '
+	                			<button class="btn btn-danger" type="button" style="padding-top:6px;margin-top:2px;margin-right:3px;margin-bottom:2px;margin-left:3px;font-size:16px;" onclick="cancelVisit()">
+	                				<i class="material-icons d-inline" style="width:16px;height:16px;font-size:16px;">bookmark</i>
+	                				&nbsp; Cancel planned visit<br>
+	                			</button>
+	                			<br>
+	                			<button class="btn btn-success" type="button" style="padding-top:6px;margin-top:2px;margin-right:3px;margin-bottom:2px;margin-left:3px;font-size:16px;" onclick="showArea()">
+	                				Have you visit '.$vname.'? Check-In!<br>
+	                			</button>
+	                			';
+	                		}
+	                		else{
+	                			echo '
+	                			<button class="btn btn-success" type="button" style="padding-top:6px;margin-top:2px;margin-right:3px;margin-bottom:2px;margin-left:3px;font-size:16px;" onclick="planVisit()">
+	                				<i class="material-icons d-inline" style="width:16px;height:16px;font-size:16px;">bookmark</i>
+	                				&nbsp; Plan a visit<br>
+	                			</button>
+	                			';
+	                		}
+
+	                		if($isFavorite){
+	                			echo '
+	                			<button class="btn btn-danger" type="button" style="padding-top:6px;margin-top:2px;margin-right:3px;margin-bottom:2px;margin-left:3px;font-size:16px;" onclick="removeFavorite()">
+	                				<i class="material-icons d-inline" style="width:16px;height:16px;font-size:16px;">favorite</i>
+	                				&nbsp; Remove from favorites<br>
+	                			</button>
+	                			';
+	                		}
+	                		else{
+	                			echo '
+	                			<button class="btn btn-success" type="button" style="padding-top:6px;margin-top:2px;margin-right:3px;margin-bottom:2px;margin-left:3px;font-size:16px;" onclick="addFavorite()">
+	                				<i class="material-icons d-inline" style="width:16px;height:16px;font-size:16px;">favorite_border</i>
+	                				&nbsp; Add your favourites<br>
+	                			</button>
+	                			';
+	                		}
                 		}
                 	?>
 
@@ -115,7 +151,13 @@
             	?>
 
 				<!-- Buttons -->
-	            <div style="margin-top:4px;margin-bottom:4px;padding-top:4px;padding-bottom:4px;">
+	            <div style="margin-top:4px;margin-bottom:4px;padding-top:4px;padding-bottom:4px;
+	            	<?php 
+						if($ownsVenue){
+							echo 'display:none;';
+						}
+					?>
+	            ">
 	            	<button class="btn btn-success" type="button" style="margin-left:1px;font-size:16px;" 
 	            	onclick="showArea('checkInBox')" id="checkinBtn">
 	            		<i class="material-icons d-inline" style="width:16px;height:16px;font-size:16px;">check_circle</i>&nbsp; Check In
@@ -299,16 +341,36 @@
 	      visit(false);
 	    }
 
-	    function visited(){
-
-	    }
-
 	    function visit(status) {
 	      var venueID = <?php echo json_encode($venueID, JSON_HEX_TAG); ?>;
 	      $.ajax({
 	        type: "POST",
 	        url: "venue_info.php?venueID=" + venueID,
 	        data: { visited: status },
+	        success: function (data){
+	          console.log(data);
+	          window.location.reload();
+	        },
+	        error: function (){
+	          console.log("Something went wrong!");
+	        }
+	      });
+	    }
+
+	    function addFavorite() {      
+	      favorite(true);
+	    }
+
+	    function removeFavorite() {
+	      favorite(false);
+	    }
+
+	    function favorite(status) {
+	      var venueID = <?php echo json_encode($venueID, JSON_HEX_TAG); ?>;
+	      $.ajax({
+	        type: "POST",
+	        url: "venue_info.php?venueID=" + venueID,
+	        data: { favorite: status },
 	        success: function (data){
 	          console.log(data);
 	          window.location.reload();

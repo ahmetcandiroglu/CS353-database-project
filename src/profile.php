@@ -135,7 +135,7 @@
       <div class="col-md-3">
 
         <!-- Followers -->
-        <a class="text-primary" href="#"><?php echo "{$pfollowerc} Followers"?></a>
+        <a class="text-primary" href="followers.php"><?php echo "{$pfollowerc} Followers"?></a>
         <div class="card-group">
           <?php
             while($row = mysqli_fetch_array($pfollowers, MYSQLI_ASSOC)){
@@ -163,7 +163,7 @@
           ?>
         </div>
         <!-- Followings -->
-        <a class="text-primary" href="#"><?php echo "{$pfollowingc} Following"?></a>
+        <a class="text-primary" href="following.php"><?php echo "{$pfollowingc} Following"?></a>
         <div class="card-group">
             <?php
               while($row = mysqli_fetch_array($pfollowings, MYSQLI_ASSOC)){

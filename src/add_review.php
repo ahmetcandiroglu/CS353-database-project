@@ -8,7 +8,7 @@
     $username = $_GET['username'];
     $venueID = $_GET['venueID'];
     $rating = (int)$_POST['rating'];
-    $reviewText = mysqli_real_escape_string($_POST['reviewText']);
+    $reviewText = mysqli_real_escape_string($db, $_POST['reviewText']);
 
     //Insert check-in and get ID
     $sql = "INSERT INTO checkin (username, venueID)

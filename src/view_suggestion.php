@@ -2,13 +2,19 @@
   require_once 'navigation_info.php';
   $username = $_SESSION['username'];
 
-
+  if(!isset($_SESSION['manageVenueID']) && empty($_SESSION['manageVenueID'])){
+    header("refresh:1; url=redirect.php");
+    exit;
+  }
 
   //Venue info
+  $vid = $_SESSION['manageVenueID'];
   $sql = "SELECT *
           FROM suggestion
-          WHERE venueID = 1";
+          WHERE venueID = $vid";
   $myQuery = mysqli_query($db, $sql);
+  unset($_SESSION['manageVenueID']);
+
 
 ?>
 <!DOCTYPE html>
@@ -38,6 +44,7 @@
 				<th>Suggestion Text</th>
 				<th>Suggestion Date</th>
         <th>Suggestion Time </th>
+        <th>Done </th>
 			</tr>
 		</thead>
 		<tbody>
@@ -50,6 +57,7 @@
       echo "<td>".$row['suggestion_text']."</td>";
       echo "<td>".date('F d, Y', strtotime($row['suggestion_date']))."</td>";
       echo "<td>".date('g:i A', strtotime($row['suggestion_date']))."</td>";
+      echo "<td><a href=done_suggestion.php?sID=".$row['suggestionID'].">Done</a></td>";
       echo "<tr>";
       $no++;
 		}

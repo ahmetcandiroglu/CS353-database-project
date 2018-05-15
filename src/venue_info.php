@@ -9,6 +9,9 @@
 
   $username = $_SESSION['username'];
   $venueID = $_GET['venueID'];
+  $_SESSION['manageVenueID'] = $venueID;
+  $nophotoVenue = "images/common/no photo venue.png";
+
 
   $showAlert = 1;
   $alertFor = "None";
@@ -62,12 +65,12 @@
   
 
   //Check manager status
-  $sql = "SELECT COUNT(*) as isManager 
+  $sql = "SELECT COUNT(*) as ownsVenue 
           FROM venue
           WHERE venueID = '$venueID' and managerName = '$username'";
   $query = mysqli_query($db, $sql);
   $row = mysqli_fetch_array($query);
-  $isManager = ($row['isManager'] > 0) ? true : false;
+  $ownsVenue = ($row['ownsVenue'] > 0) ? true : false;
   
   //Planned visit
   $sql = "SELECT COUNT(*) as plannedVisit 
@@ -77,6 +80,15 @@
   $row = mysqli_fetch_array($query);
   $plannedVisit = ($row['plannedVisit'] > 0) ? true : false;
   
+  //Favorite
+  $sql = "SELECT COUNT(*) as isFavorite 
+          FROM has_favorite
+          WHERE username = '$username' and venueID = '$venueID'";
+  $query = mysqli_query($db, $sql);
+  $row = mysqli_fetch_array($query);
+  $isFavorite = ($row['isFavorite'] > 0) ? true : false;
+
+
   if($_SERVER["REQUEST_METHOD"] == "POST"){
     if(isset($_POST['visited']) && !empty($_POST['visited'])) {
       $actionType = $_POST['visited'];
@@ -94,6 +106,25 @@
         echo "{$username} won't visit {$venueID} :(";
       }
     }
+
+    if(isset($_POST['favorite']) && !empty($_POST['favorite'])) {
+      $actionType = $_POST['favorite'];
+
+      if($actionType == "true"){
+        $sql = "INSERT INTO has_favorite (username, venueID)
+                VALUES ('$username', '$venueID')";
+        $query = mysqli_query($db, $sql);
+        echo "{$username} added {$venueID} to his/her favorites";
+      }
+      else if($actionType == "false"){
+        $sql = "DELETE FROM has_favorite
+                WHERE username = '$username' and venueID = '$venueID'";
+        $query = mysqli_query($db, $sql);
+        echo "{$username} removed {$venueID} from favorites :(";
+      }
+    }
+
+
   }
 
 ?>
